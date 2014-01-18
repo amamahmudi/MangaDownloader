@@ -5,6 +5,8 @@ package com.mangadw.conn;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,19 +18,25 @@ import org.jsoup.select.Elements;
  */
 public class WebConn {
 
-	final Document doc;
+	private final Document doc;
+	private final static Logger 	logger = LogManager.getLogger(WebConn.class);;
 
 	public WebConn(String url) throws IOException {
+		
+         
+	
+		logger.info("Connecting to {}", url);
 		doc = Jsoup.connect(url).userAgent("Mozilla/17.0").get();
+
 	}
 
 	/**
-	 * Get element from manga website that want to download
-	 * 
+	 * Get link and manga name's from manga website
 	 * 
 	 */
 	public void parse() {
-		System.out.println("Trying parse");
+
+		logger.trace("Trying parse {}", doc);
 
 		Elements tbElements = doc.select("table[class=datalist]");
 
@@ -38,14 +46,15 @@ public class WebConn {
 				Elements aElements = trElement
 						.select("td[class=datarow-0] > a");
 				for (Element aElement : aElements) {
-					System.out.println(aElement.attr("href"));
-					System.out.println(aElement.select("img").first().attr("alt"));
+					logger.debug("Link Download : {}", aElement.attr("href"));
+					logger.debug("Manga Name : {}", aElement.select("img")
+							.first().attr("alt"));
 				}
 			}
 
 		}
 
-		System.out.println("Finish parse");
+		logger.trace("Finish parse {}", doc);
 	}
 
 }
