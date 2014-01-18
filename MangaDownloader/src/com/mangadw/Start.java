@@ -1,13 +1,11 @@
 package com.mangadw;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.mangadw.conn.WebConn;
-import com.mangadw.parser.WebParser;
+import com.mangadw.parser.ParserDownloadLink;
 
 public class Start {
 
@@ -16,19 +14,11 @@ public class Start {
 	public static void main(String[] args) {
 
 		try {
-			HashMap<String, String> pMaps = new HashMap<String, String>();
-			HashMap<String, String> dMaps = new HashMap<String, String>();
+			// List<DownloadConn> linkLists = new ArrayList<>();
 
-			WebConn mangaShare = new WebConn("http://www.mangashare.com");
-
-			WebParser.parse(mangaShare.getDoc(), pMaps);
-			for (String mangaLink : pMaps.keySet()) {
-				WebConn wCon = new WebConn(mangaLink);
-				WebParser.parse(wCon.getDoc(), dMaps);
-			}
-
-			
-			
+			// WebParser.parse("http://www.mangashare.com", linkLists);
+            ParserDownloadLink.parseTuseLink("http://www.tusfiles.net/10pls3dda10p");
+            
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

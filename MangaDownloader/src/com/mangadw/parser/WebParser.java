@@ -1,12 +1,16 @@
 package com.mangadw.parser;
 
-import java.util.Map;
+import java.io.IOException;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import com.mangadw.conn.DownloadConn;
 
 public class WebParser {
 
@@ -15,10 +19,13 @@ public class WebParser {
 	/**
 	 * Get link and manga name's from manga website and insert it to map
 	 * 
+	 * @throws IOException
+	 * 
 	 */
-	public static void parse(Document doc, Map<String, String> pMaps) {
-
-		logger.trace("Trying parse {}", doc.getClass());
+	public static void parse(String url, List<DownloadConn> linkLists)
+			throws IOException {
+		Document doc = Jsoup.connect(url).get();
+		logger.trace("Trying parse {}", url);
 
 		Elements tbElements = doc.select("table[class=datalist]");
 
@@ -31,16 +38,20 @@ public class WebParser {
 					String ahref = aElement.attr("href");
 					String alt = aElement.select("img").first().attr("alt");
 
-					pMaps.put(ahref,alt);
 					logger.debug("Link Download : {}", ahref);
 
 					logger.debug("Manga Name : {}", alt);
+					DownloadConn e = new DownloadConn(ahref, alt);
+					ParserDownloadLink.parse(e);
+
+					linkLists.add(e);
+
 				}
 			}
 
 		}
 
-		logger.trace("Finish parse {}", doc.getClass());
+		logger.trace("Finish parse {}", url);
 	}
 
 }
