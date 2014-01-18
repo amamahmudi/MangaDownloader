@@ -1,9 +1,7 @@
 package com.mangadw.dw;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -11,8 +9,6 @@ import java.nio.channels.ReadableByteChannel;
 import org.apache.http.Header;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.mangadw.conn.DownloadConn;
 
 public class Downloader {
 
