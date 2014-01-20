@@ -17,7 +17,7 @@ public class WebParser {
 	private static final Logger logger = LogManager.getLogger(WebParser.class);
 
 	/**
-	 * Get link and manga name's from manga website and insert it to map
+	 * Get link download all
 	 * 
 	 * @throws IOException
 	 * 
@@ -27,29 +27,17 @@ public class WebParser {
 		Document doc = Jsoup.connect(url).get();
 		logger.trace("Trying parse {}", url);
 
-		Elements tbElements = doc.select("table[class=datalist]");
+		Elements tbElements = doc.select("a");
 
 		for (Element tbElement : tbElements) {
-			Elements trElements = tbElement.select("tr[class=datarow]");
-			for (Element trElement : trElements) {
-				Elements aElements = trElement
-						.select("td[class=datarow-0] > a");
-				for (Element aElement : aElements) {
-					String ahref = aElement.attr("href");
-					String alt = aElement.select("img").first().attr("alt");
+			
+					logger.debug("Link Download : {}", tbElement);
 
-					logger.debug("Link Download : {}", ahref);
-
-					logger.debug("Manga Name : {}", alt);
-					DownloadConn e = new DownloadConn(ahref, alt);
-					ParserDownloadLink.parse(e);
-
-					linkLists.add(e);
-
-				}
+				
+					
 			}
 
-		}
+	
 
 		logger.trace("Finish parse {}", url);
 	}

@@ -26,6 +26,7 @@ public class Downloader {
 		ReadableByteChannel rbc = Channels.newChannel(website.openStream());
 		String filePath = "/home/ama/Downloads/"+fileName;
 		FileOutputStream fos = new FileOutputStream(filePath);
+		
 		fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 		fos.flush();
 		fos.close();
